@@ -6,8 +6,6 @@ import (
 	"io"
 	"math/rand"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 const (
@@ -31,10 +29,10 @@ type Password struct {
 func main() {
 	// router group with save passwords, create db, view specific password (protected), generate password
 	var pw *Password = &Password{}
-	router := gin.Default()
-	router.GET("/password/:length", pw.PasswordInit)
+	// router := gin.Default()
+	// router.GET("/password/:length", pw.PasswordInit)
 
-	router.Run("localhost:8080")
+	// router.Run("localhost:8080")
 	password, err := pw.PasswordInit(12)
 	if err != nil {
 		fmt.Println(err)
@@ -59,7 +57,6 @@ func (pw *Password) GeneratePassword() string {
 	length += pw.GenerateSymbols(altChars + random.Intn(pw.length/12+1))
 	pw.GenerateLetters(pw.length - length)
 	passArray := []rune(pw.LETTERS + pw.numbers + pw.symbols + pw.letters)
-	fmt.Println(pw.LETTERS + pw.numbers + pw.symbols + pw.letters)
 	rand.Shuffle(pw.length, func(i, j int) {
 		passArray[i], passArray[j] = passArray[j], passArray[i]
 	})
